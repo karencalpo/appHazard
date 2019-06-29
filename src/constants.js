@@ -4,7 +4,7 @@ export const FONT = {
   BUTTONS: "https://fonts.googleapis.com/css?family=Libre+Franklin"
 };
 
-export const MAP_API_KEY = "AIzaSyBo8NEi1HMcETUSjjJct4umMtTb5BKfEC8";
+export const MAP_API_KEY = "do-not-use";
 export const GOOGLE_MAP_URL = "https://maps.googleapis.com/maps/api/geocode/json";
 export const APP_NAME = "appHazard";
 export const AUTHOR = "Karen Calpo &amp; Bob Warren";
