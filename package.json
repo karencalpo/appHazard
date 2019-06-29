@@ -1,8 +1,8 @@
 {
   "name": "appHazard",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Realize risk by property or area based on disaster history!",
+  "main": "service/index.js",
   "scripts": {
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
@@ -12,8 +12,24 @@
     "rebuild": "npm run clean && npm install && npm run build",
     "start": "node ./service/index.js"
   },
-  "keywords": ["augmented.js", "disaster", "FEMA", "maps"],
-  "authors": ["Karen Calpo", "Bob Warren"],
+  "keywords": [
+    "augmented.js",
+    "disaster",
+    "FEMA",
+    "maps"
+  ],
+  "authors": [
+    "Karen Calpo",
+    "Bob Warren <jedi.master@augmentedjs.com> (http://www.augmentedjs.com)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/augmentedjs/appHazard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/augmentedjs/appHazard/issues"
+  },
+  "homepage": "https://github.com/augmentedjs/appHazard#readme",
   "license": "Apache-2.0",
   "devDependencies": {
     "@babel/core": "^7.4.5",
