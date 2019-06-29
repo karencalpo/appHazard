@@ -5,6 +5,7 @@ import Application from "../application/application.js";
 import SearchBarView from "../views/searchBar.js";
 import { HEADER } from "../messages.js";
 import Logger from "../logger/logger.js";
+import fetchKey from "./fetchKey.js";
 
 const initializeApp = async () => {
   try {
@@ -54,6 +55,9 @@ const initializeApp = async () => {
     if (!p) {
       throw new Error("Error starting application!");
     }
+
+    Application.MAP_API_KEY = await fetchKey();
+
   } catch(e) {
     const err = `Error initializing Application - ${e}`;
     Logger.error(e);

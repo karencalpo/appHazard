@@ -13,10 +13,15 @@ const MAX_RADIUS = 40;
 import renderDisasters from "./functions/renderDisasters.js";
 
 class MapView extends HeatMapView {
-  constructor(data) {
-    if (!data) {
-      data = [];
+  constructor(options) {
+    if (!options) {
+      options = {};
     }
+
+    if (!options.data) {
+      options.data = [];
+    }
+
     super({
       "el": MOUNT_POINT,
       "template": `<div id="control"></div>`,
@@ -25,11 +30,11 @@ class MapView extends HeatMapView {
       "lat": DEFAULT_MAP_LOCATION.LAT,
       "long": DEFAULT_MAP_LOCATION.LONG,
       "zoom": DEFAULT_MAP_ZOOM,
-      "apikey": MAP_API_KEY,
+      "apikey": options.key,
       "geocode": true,
       "dissipating": true,
       "radius": 20,
-      "data": data
+      "data": options.data
     });
 
     this.on(PANEL, async (message, data) => {

@@ -1,4 +1,3 @@
-export const MAP_API_KEY = "";
 export const GOOGLE_MAP_URL = "https://maps.googleapis.com/maps/api/geocode/json";
 export const APP_NAME = "appHazard";
 export const AUTHOR = "Karen Calpo &amp; Bob Warren";
