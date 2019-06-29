@@ -10,7 +10,8 @@
     "clean": "rm -rf node_modules",
     "reinstall": "npm run clean && npm install",
     "rebuild": "npm run clean && npm install && npm run build",
-    "start": "node ./service/index.js"
+    "start": "node ./service/index.js",
+    "stuff": "npm run reinstall && npm run build && npm start"
   },
   "keywords": [
     "augmented.js",

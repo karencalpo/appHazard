@@ -69,9 +69,10 @@ if (cluster.isMaster) {
   //Global Vars
 
   app.use("/", express.static(path.join(__dirname, "/../dist")));
-  app.use("/vendor", express.static(path.join(__dirname, "/../node_modules")));
 
   // routes ======================================================================
+  require("./routes/property_locations.js")(app);
+  require("./routes/property.js")(app);
 
   app.get("/about", (req, res) => {
     res.status(200).send(CONSTANTS.ABOUT);
