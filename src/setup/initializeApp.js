@@ -1,15 +1,12 @@
-import { AUTHOR, APP_NAME } from "../constants.js";
 import Mediator from "../views/mediator.js";
 import Article from "../components/article.js";
+import Header from "../components/header.js";
 import Application from "../application/application.js";
+import { HEADER } from "../messages.js";
 import Logger from "../logger/logger.js";
 
 const initializeApp = async () => {
   try {
-    document.write(`<p>Hello from ${AUTHOR}!  This is ${APP_NAME} version ${VERSION}.</p>`);
-    Logger.info("Hello!");
-    Logger.info({ "test": "test"});
-
     Application.mediator = new Mediator();
     if (!Application.mediator) {
       throw new Error("Error creating mediator!");
@@ -20,18 +17,34 @@ const initializeApp = async () => {
       throw new Error("Error creating mediator!");
     }
 
+    Application.mediator.header = new Header();
+    if (!Application.mediator.header) {
+      throw new Error("Error creating header!");
+    }
+
     let view = await Application.mediator.article.render();
     if (!view) {
       throw new Error("Error rendering mediator!");
     }
 
+    view = await Application.mediator.header.render();
+    if (!view) {
+      throw new Error("Error rendering header!");
+    }
+
+    Application.mediator.observeColleagueAndTrigger(Application.mediator.article, HEADER, "article");
+    Application.mediator.observeColleagueAndTrigger(Application.mediator.header, HEADER, "header");
+
+    if (!Application.mediator.channels) {
+      throw new Error("Error observing views!");
+    }
     const p = await Application.start();
     if (!p) {
       throw new Error("Error starting application!");
     }
-
   } catch(e) {
     const err = `Error initializing Application - ${e}`;
+    Logger.error(e);
     throw new Error(err);
   }
 };
