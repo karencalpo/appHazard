@@ -2,6 +2,9 @@ import Application from "../application/application.js";
 import { Router as BaseRouter } from "presentation-router";
 import { PANEL } from "../messages.js";
 
+// views
+import MapView from "../views/mapView.js";
+
 const TRANSITION = {
   "in": 250,
   "out": 250
@@ -19,7 +22,7 @@ class Router extends BaseRouter {
       "transition": TRANSITION,
       "routes": {
         "": () => {
-
+          return loadViewAndObserve(this, new MapView());
         }
       }
     });
