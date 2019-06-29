@@ -20,7 +20,7 @@ module.exports = (app) => {
 
     const ATTOM_PROPERTIES_DATA = {
       hostname: `api.gateway.attomdata.com`,
-      headers: { accept: `application/json`, apikey: `ef4e2dafba28149f3f3c987e3a1ea57c`},
+      headers: { accept: `application/json`, apikey: process.env.ATTOM_API_KEY},
       port: 443,
       path: properties_url
     };
