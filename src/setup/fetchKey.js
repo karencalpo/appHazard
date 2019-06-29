@@ -6,7 +6,7 @@ const fetchKey = async () => {
     if (response.ok) {
       return response.json();
     } else {
-      throw new Error(`Problem requesting from Google: ${response.status} ${response.statusText} - ${response.body}`);
+      throw new Error(`Problem requesting: ${response.status} ${response.statusText}`);
     }
   })
   .then( (json) => {
