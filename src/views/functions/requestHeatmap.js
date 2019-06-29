@@ -6,6 +6,7 @@ const MAP_API_KEY = Application.MAP_API_KEY;
 
 const requestHeatmap = (results, mediator) => {
   if (results) {
+    Logger.debug(new Date(), "results", results);
     const latitude = results[0].geometry.location.lat();
     const longitude = results[0].geometry.location.lng();
 
@@ -118,7 +119,7 @@ const requestHeatmap = (results, mediator) => {
       return json;
     })
     .catch( (e) => {
-      Loger.debug(`Request Caught error ${e.message}`);
+      Logger.debug(`Request Caught error ${e.message}`);
       throw e;
     });
   } else {
