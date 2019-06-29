@@ -1,1 +1,13 @@
 /* put sass here */
+
+figure {
+  &.logo {
+    background: url("../images/appIcon.png");
+    z-index: 1;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-origin: content-box;
+  }
+
+}

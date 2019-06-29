@@ -3,6 +3,7 @@ import Application from "../application/application.js";
 import Logger from "../logger/logger.js";
 import * as MESSAGES from "../messages.js";
 import * as CONSTANTS from "../constants.js";
+import { displayErrorMessage, displayNotification, displayMessage, displayAbout } from "./functions/mediation.js";
 
 class Mediator extends BaseMediator {
   constructor() {
