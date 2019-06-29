@@ -73,6 +73,9 @@ module.exports = {
       // both options are optional
       filename: "[name].css",
       chunkFilename: "[id].css"
+    }),
+    new webpack.DefinePlugin({
+      VERSION: JSON.stringify(require("./package.json").version)
     })
   ],
   // optimization
