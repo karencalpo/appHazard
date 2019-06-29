@@ -1,13 +1,62 @@
 /* put sass here */
 
-figure {
-  &.logo {
-    background: url("../images/appIcon.png");
-    z-index: 1;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 100%;
-    background-origin: content-box;
+.header {
+  figure {
+    &.logo {
+      right: auto;
+      left: 1rem;
+      background: url("../images/appIcon.png");
+      z-index: 1;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 100%;
+      background-origin: content-box;
+    }
   }
+}
 
+.searchbar {
+  display: block;
+  position: relative;
+  margin: 0 0 0 12.5rem;
+  width: 100%;
+  i {
+    &.searchicon {
+      display: block;
+      position: absolute;
+      left: 0.75rem;
+      top: 0.75rem;
+      color: rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+  }
+  input {
+    display: inline-block;
+    width: calc(100% - 14rem);
+    height: 2rem;
+    margin: 0.5rem;
+    padding: 0.5rem 6rem 0.5rem 2rem;
+    font-size: 1rem;
+    color: var(--light-text);
+    background-color: rgba(0,0,0,0.1);
+    border: none;
+    box-shadow: none;
+    border-radius: 0.25rem;
+    text-overflow: ellipsis;
+    transition: background-color 0.5s ease, color 0.5s ease, box-shadow 0.5s ease;
+
+    &::placeholder {
+      color: rgba(255, 255, 255 ,0.5);
+    }
+
+  }
+  button {
+    display: block;
+    position: absolute;
+    right: 13.6rem;
+    top: 0.6rem;
+    height: 60%;
+    line-height: 0.3rem;
+
+  }
 }
