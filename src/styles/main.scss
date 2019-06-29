@@ -205,3 +205,27 @@ dialog.alert {
     }
   }
 }
+
+/* fix google map bleed */
+button.gm-ui-hover-effect {
+  border: none;
+  box-shadow: none;
+  top: 0 !important;
+  right: 0 !important;
+}
+
+div.gm-style-mtc:nth-child(1) > div:nth-child(2) {
+  width: 4.25rem;
+  label {
+    display: inline-block;
+    padding-left: 0.25rem;
+  }
+}
+
+div.gm-style-mtc:nth-child(2) > div:nth-child(2) {
+  width: 6.25rem;
+  label {
+    display: inline-block;
+    padding-left: 0.25rem;
+  }
+}

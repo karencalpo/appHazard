@@ -2,7 +2,6 @@ import { GOOGLE_MAP_URL, SERVICE } from "../../constants.js";
 import { PANEL, PRODUCE_HEATMAP, PRODUCE_RISK_DETAILS } from "../../messages.js";
 import Logger from "../../logger/logger.js";
 import Application from "../../application/application.js";
-const MAP_API_KEY = Application.MAP_API_KEY;
 
 const requestHeatmap = (results, mediator) => {
   if (results) {
@@ -12,7 +11,8 @@ const requestHeatmap = (results, mediator) => {
 
     // call geocode
     Logger.debug(new Date(), "call geocode");
-    return fetch(`${GOOGLE_MAP_URL}?latlng=${latitude},${longitude}&key=${MAP_API_KEY}`)
+    Logger.debug(new Date(), "key", Application.MAP_API_KEY);
+    return fetch(`${GOOGLE_MAP_URL}?latlng=${latitude},${longitude}&key=${Application.MAP_API_KEY}`)
     .then( (response) => {
       if (response.ok) {
         return response.json();
@@ -78,7 +78,7 @@ const requestHeatmap = (results, mediator) => {
     .then( (address) => {
       // request location data and add address data
       Logger.debug(new Date(), "request location data and add address data");
-      return fetch(`${SERVICE}/locations?lat=${address.lat}&long=${address.long}&address=${encodeURIComponent(address.address)}&city=${encodeURIComponent(address.city)}&county=${encodeURIComponent(address.county)}&state=${encodeURIComponent(address.state)}&zip=${encodeURIComponent(address.zip)}`)
+      return fetch(`${SERVICE}/properties?lat=${address.lat}&long=${address.long}&address=${encodeURIComponent(address.address)}&city=${encodeURIComponent(address.city)}&county=${encodeURIComponent(address.county)}&state=${encodeURIComponent(address.state)}&zip=${encodeURIComponent(address.zip)}`)
       .then( (response) => {
         if (response.ok) {
           return response.json();
