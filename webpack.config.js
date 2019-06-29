@@ -3,6 +3,7 @@ const webpack = require("webpack");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ManifestPlugin = require("webpack-manifest-plugin");
 
 module.exports = {
   entry: ['./src/index.js'],
@@ -76,7 +77,8 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       VERSION: JSON.stringify(require("./package.json").version)
-    })
+    }),
+    new ManifestPlugin()
   ],
   // optimization
   optimization: {
@@ -90,7 +92,7 @@ module.exports = {
         // vendor chunk
         vendor: {
           // sync + async chunks
-          chunks: 'all',
+          chunks: "all",
 
           // import file path containing node_modules
           test: /node_modules/
