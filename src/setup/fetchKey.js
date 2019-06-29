@@ -1,7 +1,7 @@
 import { SERVICE } from "../constants.js";
 
 const fetchKey = async () => {
-  return fetch(`${SERVICE}/getkey`)
+  return await fetch(`${SERVICE}/getkey`)
   .then( (response) => {
     if (response.ok) {
       return response.json();

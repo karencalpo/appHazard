@@ -10,6 +10,8 @@ import fetchKey from "./fetchKey.js";
 
 const initializeApp = async () => {
   try {
+    Application.MAP_API_KEY = await fetchKey();
+    
     Application.mediator = new Mediator();
     if (!Application.mediator) {
       throw new Error("Error creating mediator!");
@@ -63,8 +65,6 @@ const initializeApp = async () => {
     if (!Application.mediator.channels) {
       throw new Error("Error observing views!");
     }
-
-    Application.MAP_API_KEY = await fetchKey();
 
     const p = await Application.start();
     if (!p) {

@@ -73,7 +73,8 @@ if (cluster.isMaster) {
   // routes ======================================================================
   require("./routes/property_locations.js")(app);
   //require("./routes/property.js")(app);
-
+  require("./routes/getkey.js")(app);
+  
   app.get("/about", (req, res) => {
     res.status(200).send(CONSTANTS.ABOUT);
   });

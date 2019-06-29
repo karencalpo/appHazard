@@ -3,7 +3,7 @@ import ControlPanelView from "./controlPanel.js";
 import { PANEL, SEARCH_MAP_RESULTS, REQUEST_RISK_HEATMAP, PRODUCE_HEATMAP,
   TOGGLE_HEATMAP_COLOR, TOGGLE_HEATMAP_RADIUS, TOGGLE_HEATMAP_OPACITY,
   PRODUCE_RISK_DETAILS } from "../messages.js";
-import { MAP_API_KEY, DEFAULT_MAP_LOCATION, DEFAULT_MAP_ZOOM, GRADIENT } from "../constants.js";
+import { DEFAULT_MAP_LOCATION, DEFAULT_MAP_ZOOM, GRADIENT } from "../constants.js";
 import Logger from "../logger/logger.js";
 
 const MOUNT_POINT = "#main";
@@ -30,7 +30,7 @@ class MapView extends HeatMapView {
       "lat": DEFAULT_MAP_LOCATION.LAT,
       "long": DEFAULT_MAP_LOCATION.LONG,
       "zoom": DEFAULT_MAP_ZOOM,
-      "apikey": options.key,
+      "apikey": options.apikey,
       "geocode": true,
       "dissipating": true,
       "radius": 20,

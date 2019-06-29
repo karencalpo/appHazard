@@ -22,7 +22,7 @@ class Router extends BaseRouter {
       "transition": TRANSITION,
       "routes": {
         "": () => {
-          return loadViewAndObserve(this, new MapView({"apiKey": Application.MAP_API_KEY}));
+          return loadViewAndObserve(this, new MapView({"apikey": Application.MAP_API_KEY}));
         }
       }
     });
