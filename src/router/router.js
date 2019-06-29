@@ -1,7 +1,6 @@
 import Application from "../application/application.js";
 import { Router as BaseRouter } from "presentation-router";
-
-
+import { PANEL } from "../messages.js";
 
 const TRANSITION = {
   "in": 250,
