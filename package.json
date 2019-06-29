@@ -2,7 +2,7 @@
   "name": "appHazard",
   "version": "1.0.0",
   "description": "Realize risk by property or area based on disaster history!",
-  "main": "service/index.js",
+  "main": "src/index.js",
   "scripts": {
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
