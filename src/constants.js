@@ -1,9 +1,3 @@
-export const FONT = {
-  FONTS: "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:100,300,400,600,400italic",
-  ICONS: "https://fonts.googleapis.com/icon?family=Material+Icons",
-  BUTTONS: "https://fonts.googleapis.com/css?family=Libre+Franklin"
-};
-
 export const MAP_API_KEY = "do-not-use";
 export const GOOGLE_MAP_URL = "https://maps.googleapis.com/maps/api/geocode/json";
 export const APP_NAME = "appHazard";
@@ -15,6 +9,23 @@ export const DEFAULT_MAP_LOCATION = {
 };
 
 export const DEFAULT_MAP_ZOOM = 14;
+
+export const GRADIENT = [
+  "rgba(0, 255, 255, 0)",
+  "rgba(0, 255, 255, 1)",
+  "rgba(0, 191, 255, 1)",
+  "rgba(0, 127, 255, 1)",
+  "rgba(0, 63, 255, 1)",
+  "rgba(0, 0, 255, 1)",
+  "rgba(0, 0, 223, 1)",
+  "rgba(0, 0, 191, 1)",
+  "rgba(0, 0, 159, 1)",
+  "rgba(0, 0, 127, 1)",
+  "rgba(63, 0, 91, 1)",
+  "rgba(127, 0, 63, 1)",
+  "rgba(191, 0, 31, 1)",
+  "rgba(255, 0, 0, 1)"
+];
 
 export const SERVICE = "http://localhost:8080";
 
