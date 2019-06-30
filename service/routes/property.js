@@ -11,6 +11,7 @@ module.exports = (app) => {
 
     if(req.body.address && req.body.city) {
       https.get(ATTOM_SINGLE_PROPERTY, (response) => {
+
         let stream = "";
 
         response.on("data", (chunk) => {
@@ -18,24 +19,26 @@ module.exports = (app) => {
         });
 
         response.on("end", () => {
-          try {
-            const data = JSON.parse(stream);
-            res.send(data.property[0]);
-          } catch(e) {
-            Logger.error(e);
-            res.status(500).send(e.message);
+          if(stream.length === 0) {
+            try {
+              const data = JSON.parse(stream);
+              res.send(data.property[0]);
+            } catch(e) {
+              Logger.error(e);
+              res.status(500).send(e.message);
+            }
+          } else {
+            res.send({});
           }
 
         }).on(`error`, (e) => {
             Logger.error(e);
             res.status(500).send(e.message);
-            res.send({});
         });
 
       });
-    }
-  } else if(Object.keys(data).length === 0) {
-   } else {
+
+    } else {
       res.status(400).send("Requires address and city.");
     }
   });
