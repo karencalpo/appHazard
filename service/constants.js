@@ -11,3 +11,15 @@ module.exports.ALLOWED_ORIGINS = [localSSLURI, SSLURI, webServiceURI, localWebSe
 module.exports.ABOUT = "Clustered Express Service";
 
 module.exports.PORT = port;
+
+module.exports.ATTOM_PROPERTIES_DATA = {
+  hostname: `api.gateway.attomdata.com`,
+  headers: { accept: `application/json`, apikey: process.env.ATTOM_API_KEY},
+  port: 443
+};
+
+module.exports.FEMA_DATA = {
+  hostname: `www.fema.gov`,
+  headers: { "Content-Type": `application/json`},
+  port: 443
+};

@@ -1,5 +1,6 @@
 const asyncCall = require("./asyncCall.js");
 const Risk = require("./calcRisk.js");
+const Logger = require("../logger.js");
 
 const calcData = async (headers, req, res) => {
   try {
@@ -84,10 +85,8 @@ const calcData = async (headers, req, res) => {
 
     res.send(allData);
     return allData;
-    //res.send([attom, fema]);
-    //return [attom, fema];
   } catch (e) {
-    console.error(e);
+    Logger.error(e);
     res.status(500).send(e);
     return e;
   }

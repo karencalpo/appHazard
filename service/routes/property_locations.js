@@ -1,4 +1,5 @@
 const calcData = require("../functions/calcData.js");
+const CONSTANTS = require("../constants.js");
 
 module.exports = (app) => {
   app.get("/properties", (req, res) => {
@@ -13,24 +14,14 @@ module.exports = (app) => {
     const yearRange = (req.query.yearRange) ? req.query.yearRange : 10;
     const filter = `(fyDeclared ge ${year-yearRange} and state eq '${req.query.state}' and declaredCountyArea eq '${req.query.county}')`;
     const property_url = encodeURI(`/propertyapi/v1.0.0/attomavm/detail?address1=${req.query.address}&address2=${req.query.city}`);
-
     const fema_url = encodeURI(`/api/open/v1/DisasterDeclarationsSummaries?$filter=${filter}&$orderby=fyDeclared,state,declaredCountyArea,fyDeclared`);
-
     const properties_url = encodeURI(`/propertyapi/v1.0.0/assessment/snapshot?address1=${req.query.address}&address2=${req.query.city}&radius=${radius}&pageSize=${pageSize}`);
 
-    const ATTOM_PROPERTIES_DATA = {
-      hostname: `api.gateway.attomdata.com`,
-      headers: { accept: `application/json`, apikey: process.env.ATTOM_API_KEY},
-      port: 443,
-      path: properties_url
-    };
+    const ATTOM_PROPERTIES_DATA = CONSTANTS.ATTOM_PROPERTIES_DATA;
+    ATTOM_PROPERTIES_DATA["path"] =  properties_url;
 
-    const FEMA_DATA = {
-      hostname: `www.fema.gov`,
-      headers: { "Content-Type": `application/json`},
-      port: 443,
-      path: fema_url
-    };
+    const FEMA_DATA = CONSTANTS.FEMA_DATA;
+    FEMA_DATA["path"] =  fema_url;
 
     const headers = [ATTOM_PROPERTIES_DATA, FEMA_DATA];
 
