@@ -89,7 +89,7 @@ const calcData = async (headers, req, res) => {
             city: property["address"]["locality"],
             state: property["address"]["countrySubd"]
           },
-          assessed_value: property["assessment"]["assessed"]["assdttlvalue"]
+          value: (property["assessment"]["assessed"]["assdttlvalue"] > property["assessment"]["market"]["mktttlvalue"]) ? property["assessment"]["assessed"]["assdttlvalue"] : property["assessment"]["market"]["mktttlvalue"]
         });
       });
 
