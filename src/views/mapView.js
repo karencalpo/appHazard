@@ -1,5 +1,6 @@
 import { HeatMapView } from "presentation-maps";
 import ControlPanelView from "./controlPanel.js";
+import LegendView from "./legend.js";
 import { PANEL, SEARCH_MAP_RESULTS, REQUEST_RISK_HEATMAP, PRODUCE_HEATMAP,
   TOGGLE_HEATMAP_COLOR, TOGGLE_HEATMAP_RADIUS, TOGGLE_HEATMAP_OPACITY,
   PRODUCE_RISK_DETAILS } from "../messages.js";
@@ -24,7 +25,10 @@ class MapView extends HeatMapView {
 
     super({
       "el": MOUNT_POINT,
-      "template": `<div id="control"></div>`,
+      "template": `
+        <div id="control"></div>
+        <aside id="legend" class="legend"></aside>
+      `,
       "name": "mapview",
       "style": "view",
       "lat": DEFAULT_MAP_LOCATION.LAT,
@@ -83,14 +87,19 @@ class MapView extends HeatMapView {
   async render() {
     await super.render();
     this._control = new ControlPanelView();
+    this._legend = new LegendView();
     await this._control.render();
     this.mediator.observeColleagueAndTrigger(this._control, PANEL, this._control.name);
+    await this._legend.render();
+    this.mediator.observeColleagueAndTrigger(this._legend, PANEL, this._legend.name);
     return this;
   };
 
   async remove() {
+    await this.mediator.dismissColleagueTrigger(this._legend, PANEL, this._legend.name);
     await this.mediator.dismissColleagueTrigger(this._control, PANEL, this._control.name);
     await this._control.remove();
+    await this._legend.remove();
     await super.remove();
     return this;
   };
