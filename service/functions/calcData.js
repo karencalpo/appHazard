@@ -86,8 +86,10 @@ const calcData = async (headers, req, res) => {
           weight: risk,
           address: {
             address: property["address"]["line1"],
-            city: property["address"]["line2"]
-          }
+            city: property["address"]["locality"],
+            state: property["address"]["countrySubd"]
+          },
+          assessed_value: property["assessment"]["assessed"]["assdttlvalue"]
         });
       });
 
@@ -110,6 +112,8 @@ const calcData = async (headers, req, res) => {
 
     res.send(allData);
     return allData;
+    // res.send([attom, fema]);
+    // return [attom, fema];
   } catch (e) {
     Logger.error(e);
     res.status(500).send(e);
