@@ -14,6 +14,22 @@ const calcData = async (headers, req, res) => {
     let propertyAvg = 0;
     let greatest_disaster = 0;
     const [attom, fema] = await Promise.all(headers.map(asyncCall));
+    const sortLocations = (arr, key) => {
+      return arr.sort((a,b) => {
+        const x = a[key];
+        const y = b[key];
+
+        if(x < y) {
+        	return 1;
+        } else if(x > y) {
+        	return -1;
+        } else {
+        	return 0;
+        }
+
+      });
+    };
+
     if(attom["property"]) {
       attom["property"].forEach((property) => {
         propertyVals.push(property["assessment"]["assessed"]["assdttlvalue"]);
@@ -70,7 +86,12 @@ const calcData = async (headers, req, res) => {
           weight: risk
         });
       });
+
+      let sorted_locations = sortLocations(locations, "weight");
+      
     };
+
+
 
     riskData = {
       greatest_disasters: worst_disasters,
