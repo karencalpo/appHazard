@@ -83,12 +83,16 @@ const calcData = async (headers, req, res) => {
         locations.push({
           lat: property["location"]["latitude"],
           long: property["location"]["longitude"],
-          weight: risk
+          weight: risk,
+          address: {
+            address: property["address"]["line1"],
+            city: property["address"]["line2"]
+          }
         });
       });
 
-      let sorted_locations = sortLocations(locations, "weight");
-      
+      sortLocations(locations, "weight");
+
     };
 
 
@@ -106,6 +110,8 @@ const calcData = async (headers, req, res) => {
 
     res.send(allData);
     return allData;
+    // res.send([attom, fema]);
+    // return [attom, fema];
   } catch (e) {
     Logger.error(e);
     res.status(500).send(e);
