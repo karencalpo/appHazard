@@ -29,10 +29,13 @@ module.exports = (app) => {
         }).on(`error`, (e) => {
             Logger.error(e);
             res.status(500).send(e.message);
+            res.send({});
         });
 
       });
-    } else {
+    }
+  } else if(Object.keys(data).length === 0) {
+   } else {
       res.status(400).send("Requires address and city.");
     }
   });
