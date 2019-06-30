@@ -19,18 +19,18 @@ module.exports = (app) => {
         });
 
         response.on("end", () => {
-          if(stream.length === 0) {
             try {
               const data = JSON.parse(stream);
-              res.send(data.property[0]);
+
+              if(data["status"]["msg"] === "SuccessWithoutResult") {
+                res.send({});
+              } else {
+                res.send(data.property[0]);
+              }
             } catch(e) {
               Logger.error(e);
               res.status(500).send(e.message);
             }
-          } else {
-            res.send({});
-          }
-
         }).on(`error`, (e) => {
             Logger.error(e);
             res.status(500).send(e.message);
