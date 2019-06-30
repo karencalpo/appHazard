@@ -89,12 +89,14 @@ class MapView extends HeatMapView {
     this._control = new ControlPanelView();
     this._legend = new LegendView();
     await this._control.render();
-    await this._legend.render();
     this.mediator.observeColleagueAndTrigger(this._control, PANEL, this._control.name);
+    await this._legend.render();
+    this.mediator.observeColleagueAndTrigger(this._legend, PANEL, this._legend.name);
     return this;
   };
 
   async remove() {
+    await this.mediator.dismissColleagueTrigger(this._legend, PANEL, this._legend.name);
     await this.mediator.dismissColleagueTrigger(this._control, PANEL, this._control.name);
     await this._control.remove();
     await this._legend.remove();

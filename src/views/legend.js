@@ -1,5 +1,7 @@
 import { DirectiveView } from "presentation-decorator";
-//import {  } from "../messages.js";
+import Dom from "presentation-dom";
+import { PANEL, TOGGLE_HEATMAP_COLOR } from "../messages.js";
+
 const MOUNT_POINT = "#legend";
 
 class LegendView extends DirectiveView {
@@ -20,6 +22,27 @@ class LegendView extends DirectiveView {
         </div>
       </div>
     `;
+    this._winter = false;
+
+    this.on(PANEL, async (message, data) => {
+      if (message === TOGGLE_HEATMAP_COLOR) {
+        if (this._winter) {
+          this.setSummer();
+        } else {
+          this.setWinter();
+        }
+      }
+    });
+  };
+
+  setWinter() {
+    Dom.addClass(this.el, "winter");
+    this._winter = true;
+  };
+
+  setSummer() {
+    Dom.removeClass(this.el, "winter");
+    this._winter = false;
   };
 };
 
