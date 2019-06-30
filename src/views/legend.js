@@ -13,7 +13,7 @@ class LegendView extends DirectiveView {
     });
 
     this.template = `
-      <h1>Legend</h1>
+      <h1>Risk</h1>
       <div>
         <div class="bar"></div>
         <div class="ticks">

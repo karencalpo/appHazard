@@ -13,9 +13,9 @@ class ControlPanelView extends DirectiveView {
 
     this.template = `
       <div id="floating-panel">
-        <button data-${this.name}="changegradient" data-click="changeGradient" title="Toggle color of heatmap.">Change gradient</button>
-        <button data-${this.name}="changeradius" data-click="changeRadius" title="Toggle radius of heatmap.">Change radius</button>
-        <button data-${this.name}="changeopacity" data-click="changeOpacity" title="Toggle opacity of heatmap.">Change opacity</button>
+        <button data-${this.name}="changegradient" data-click="changeGradient" title="Toggle color of heatmap.">Toggle Color</button>
+        <button data-${this.name}="changeradius" data-click="changeRadius" title="Toggle radius of heatmap.">Toggle Density</button>
+        <!-- button data-${this.name}="changeopacity" data-click="changeOpacity" title="Toggle opacity of heatmap.">Change opacity</button -->
       </div>
     `;
   };
