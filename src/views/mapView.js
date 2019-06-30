@@ -8,6 +8,8 @@ import { DEFAULT_MAP_LOCATION, DEFAULT_MAP_ZOOM, GRADIENT, SERVICE } from "../co
 import Logger from "../logger/logger.js";
 import getPropertyData from "./functions/getPropertyData.js";
 
+import bluepin from "../images/blue-pin.png";
+
 const MOUNT_POINT = "#main";
 
 const MAX_RADIUS = 40;
@@ -70,7 +72,7 @@ class MapView extends HeatMapView {
   };
 
   popup(data) {
-    Logger.debug("Popup", data);
+    //Logger.debug("Popup", data);
     return this.addMarkerPopup(`
       <aside class="popup">
         <h1>Risk &amp; Property</h1>
@@ -94,12 +96,13 @@ class MapView extends HeatMapView {
   };
 
   async markLocations(locations) {
+    Logger.debug("markLocations", locations);
     let i = 0;
     const l = locations.length;
     for (i; i < l; i++) {
       console.debug(i, locations[i].location);
       await this.setMarker(
-        `${SERVICE}/favicon-32x32.png`,
+        `${SERVICE}/blue-pin.png`,
         parseFloat(locations[i].location.latitude),
         parseFloat(locations[i].location.longitude),
       "<p>Bubba got a big ol' truck!</p>");
