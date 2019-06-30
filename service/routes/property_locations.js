@@ -13,7 +13,6 @@ module.exports = (app) => {
     const radius = 1;
     const yearRange = (req.query.yearRange) ? req.query.yearRange : 10;
     const filter = `(fyDeclared ge ${year-yearRange} and state eq '${req.query.state}' and declaredCountyArea eq '${req.query.county}')`;
-    const property_url = encodeURI(`/propertyapi/v1.0.0/attomavm/detail?address1=${req.query.address}&address2=${req.query.city}`);
     const fema_url = encodeURI(`/api/open/v1/DisasterDeclarationsSummaries?$filter=${filter}&$orderby=fyDeclared,state,declaredCountyArea,fyDeclared`);
     const properties_url = encodeURI(`/propertyapi/v1.0.0/assessment/snapshot?address1=${req.query.address}&address2=${req.query.city}&radius=${radius}&pageSize=${pageSize}`);
 
