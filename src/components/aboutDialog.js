@@ -16,9 +16,8 @@ class AboutDialog extends DialogView {
         <p>Show risk for an area.</p>
         <p class="author">Written by ${AUTHOR}</p>
         <figure class="logo"></figure>
-        <h1 class="appname">${APP_NAME}</h1>
       `,
-      "title": `About`
+      "title": `${APP_NAME}`
     });
   };
 };

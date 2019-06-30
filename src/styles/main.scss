@@ -30,7 +30,7 @@ article {
       background-color: var(--primary-color);
 
       h1 {
-        margin-left: 4rem;
+        margin-left: 3.75rem;
       }
       figure.logo {
         z-index: 1;
@@ -40,7 +40,6 @@ article {
 }
 
 button {
-  /*font-family: "libre Franklin", "Roboto", sans serif;*/
   white-space: nowrap;
   border: none;
   transition: background-color 0.5s ease;
@@ -49,6 +48,7 @@ button {
     border: none;
   }
 }
+
 dialog.alert {
   height: 8rem;
 }
@@ -281,6 +281,9 @@ aside {
 }
 
 .about {
+  h1 {
+    font-family: "PT Sans Caption", "Andale Mono", sans-serif;
+  }
   figure {
     &.logo {
       background: url("../images/appicon.png") center no-repeat;

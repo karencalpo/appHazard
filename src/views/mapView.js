@@ -7,14 +7,15 @@ import { PANEL, SEARCH_MAP_RESULTS, REQUEST_RISK_HEATMAP, PRODUCE_HEATMAP,
 import { DEFAULT_MAP_LOCATION, DEFAULT_MAP_ZOOM, GRADIENT, SERVICE } from "../constants.js";
 import Logger from "../logger/logger.js";
 import getPropertyData from "./functions/getPropertyData.js";
-
+import renderDisasters from "./functions/renderDisasters.js";
 import bluepin from "../images/blue-pin.png";
 
 const MOUNT_POINT = "#main";
-
 const MAX_RADIUS = 40;
-
-import renderDisasters from "./functions/renderDisasters.js";
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+});
 
 class MapView extends HeatMapView {
   constructor(options) {
@@ -73,21 +74,17 @@ class MapView extends HeatMapView {
 
   popup(data) {
     //Logger.debug("Popup", data);
-    [data.propData.avm.amount.value, data.propData.assessment.assessed.assdttlvalue, data.propData.assessment.market.mktttlvalue]
-    let first_value = (data.propData.avm.amount.value) ? data.propData.avm.amount.value : 0;
-    let second_value = (data.propData.assessment.assessed.assdttlvalue) ? data.propData.assessment.assessed.assdttlvalue : 0;
-    let third_value = (data.propData.assessment.market.mktttlvalue) ? data.propData.assessment.market.mktttlvalue : 0;
+    //[data.propData.avm.amount.value, data.propData.assessment.assessed.assdttlvalue, data.propData.assessment.market.mktttlvalue]
+    const first_value = (data.propData && data.propData.avm && data.propData.avm.amount && data.propData.avm.amount.value) ? data.propData.avm.amount.value : 0;
+    const second_value = (data.propData && data.propData.assessment && data.propData.assessment.assessed && data.propData.assessment.assessed.assdttlvalue) ? data.propData.assessment.assessed.assdttlvalue : 0;
+    const third_value = (data.propData && data.propData.assessment && data.propData.assessment.market && data.propData.assessment.market.mktttlvalue) ? data.propData.assessment.market.mktttlvalue : 0;
 
-    let sorted = [first_value, second_value, third_value].sort((a,b) => {
+    const sorted = [first_value, second_value, third_value].sort((a,b) => {
       return a-b;
     });
 
-    let formatter = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    });
-    let value = formatter.format(sorted[2]);
-    console.log("sorted", sorted);
+    const value = (sorted[2] && sorted[2] !== 0) ? formatter.format(sorted[2]) : "Unknown";
+
     return this.addMarkerPopup(`
       <aside class="popup">
         <h1>Risk &amp; Property</h1>
@@ -97,10 +94,10 @@ class MapView extends HeatMapView {
         <p>${renderDisasters(data.greatest_disasters)}</p>
         <h2>Value</h2>
         <p>${value}</p>
-        <h2>Latitude</h2>
+        <!-- h2>Latitude</h2>
         <p>${(data.address.lat)}</p>
         <h2>Longitude</h2>
-        <p>${(data.address.long)}</p>
+        <p>${(data.address.long)}</p -->
       </aside>
     `);
   };
@@ -112,17 +109,39 @@ class MapView extends HeatMapView {
     this.sendMessage(REQUEST_RISK_HEATMAP, results);
   };
 
-  async markLocations(locations) {
-    Logger.debug("markLocations", locations);
+  async markLocations(data) {
+    //Logger.debug("markLocations", data);
     let i = 0;
-    const l = locations.length;
+    const l = data.locations.length;
+    //Logger.debug("mark numbers", l);
+    const greatestDisasters = renderDisasters(data.riskData.greatest_disasters);
+
     for (i; i < l; i++) {
-      console.debug(i, locations[i].location);
+      const loc = data.locations[i];
+      //Logger.debug("marker", loc);
+
       await this.setMarker(
         `${SERVICE}/blue-pin.png`,
-        parseFloat(locations[i].location.latitude),
-        parseFloat(locations[i].location.longitude),
-      "<p>Bubba got a big ol' truck!</p>");
+        parseFloat(loc.lat),
+        parseFloat(loc.long),
+      `
+        <aside class="popup">
+          <h1>Risk &amp; Property</h1>
+          <h2>Address</h2>
+          <p>
+            ${(loc.address) ?
+              (loc.address.address + ", " + loc.address.city + ", " + loc.address.state) : "Unavailable" }
+          </p>
+          <h2>Highest Occuring Disasters</h2>
+          <p>${greatestDisasters}</p>
+          <h2>Value</h2>
+          <p>${formatter.format(loc.value)}</p>
+          <!-- h2>Latitude</h2>
+          <p>${(loc.lat)}</p>
+          <h2>Longitude</h2>
+          <p>${(loc.long)}</p -->
+        </aside>
+      `);
     }
     return i;
   };

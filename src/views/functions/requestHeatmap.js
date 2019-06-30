@@ -113,7 +113,7 @@ const requestHeatmap = (results, mediator) => {
     })
     .then( (json) => {
       // produce risk and property details
-      Logger.debug(new Date(), "produce risk and property details");
+      //Logger.debug(new Date(), "produce risk and property details");
       if (json && json.riskData) {
         mediator.publish(PANEL, PRODUCE_RISK_DETAILS, json.riskData);
       }
@@ -122,6 +122,16 @@ const requestHeatmap = (results, mediator) => {
     .then( (json) => {
       // produce 5 extra points by async request if we have more than 5
       // call 5 times to get property data
+
+      //Logger.debug("produce 5 extra points", json);
+
+      const extra = {
+        "locations": json.locations.slice(0, 5),
+        "riskData": json.riskData
+      };
+
+      return extra;
+      /*
       let i = 0;
       const req = [];
 
@@ -130,9 +140,9 @@ const requestHeatmap = (results, mediator) => {
         const obj = { "address": loc.address.address, "city": loc.address.city, "state": loc.address.state };
         req.push(obj);
       }
-      return req;
+      return req;*/
     })
-    .then( (requests) => {
+    /*.then( (requests) => {
       const go = (obj) => {
         return fetch(`${SERVICE}/property`, {
           "method": "POST",
@@ -168,9 +178,9 @@ const requestHeatmap = (results, mediator) => {
         }
       }
       return clean;
-    })
+    })*/
     .then( (locations) => {
-      Logger.debug("Locations", locations);
+      //Logger.debug("Locations", locations);
       mediator.publish(PANEL, PRODUCE_EXTRA_POINTS, locations);
     })
     .catch( (e) => {
