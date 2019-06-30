@@ -6,12 +6,15 @@ import { PANEL, SEARCH_MAP_RESULTS, REQUEST_RISK_HEATMAP, PRODUCE_HEATMAP,
   PRODUCE_RISK_DETAILS } from "../messages.js";
 import { DEFAULT_MAP_LOCATION, DEFAULT_MAP_ZOOM, GRADIENT } from "../constants.js";
 import Logger from "../logger/logger.js";
+import getPropertyData from "./functions/getPropertyData.js";
 
 const MOUNT_POINT = "#main";
 
 const MAX_RADIUS = 40;
 
 import renderDisasters from "./functions/renderDisasters.js";
+
+const iconBase = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/';
 
 class MapView extends HeatMapView {
   constructor(options) {
@@ -52,8 +55,9 @@ class MapView extends HeatMapView {
         this.heatmap.set("radius", (this.heatmap.get("radius") !== MAX_RADIUS) ? MAX_RADIUS : this._radius);
       } else if (message === TOGGLE_HEATMAP_OPACITY) {
         this.heatmap.set("opacity", this.heatmap.get("opacity") ? null : 0.2);
+        this.setMarker(iconBase + "parking_lot_maps.png", 37.7906941, -122.3910195);
       } else if (message === PRODUCE_RISK_DETAILS) {
-        //Logger.debug(data);
+        data.propData = await getPropertyData(data.address.address, data.address.city);
         await this.popup(data);
       } else {
         Logger.warn(`Unknown message ${message}`);
@@ -62,6 +66,7 @@ class MapView extends HeatMapView {
   };
 
   popup(data) {
+    Logger.debug("Popup", data);
     return this.addMarkerPopup(`
       <aside class="popup">
         <h1>Risk &amp; Property</h1>
