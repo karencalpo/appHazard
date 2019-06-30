@@ -73,6 +73,16 @@ class MapView extends HeatMapView {
 
   popup(data) {
     //Logger.debug("Popup", data);
+    let sorted = [parseInt(data.propData.avm.amount.value), parseInt(data.propData.assessment.assessed.assdttlvalue), parseInt(data.propData.assessment.market.mktttlvalue)].sort((a,b) => {
+      return a-b;
+    });
+
+    let formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    });
+    let value = formatter.format(sorted[2]);
+    console.log("sorted", sorted);
     return this.addMarkerPopup(`
       <aside class="popup">
         <h1>Risk &amp; Property</h1>
@@ -80,6 +90,8 @@ class MapView extends HeatMapView {
         <p>${(data.address.formatted) ? data.address.formatted : "Unavailable" }</p>
         <h2>Highest Occuring Disasters</h2>
         <p>${renderDisasters(data.greatest_disasters)}</p>
+        <h2>Value</h2>
+        <p>${value}</p>
         <h2>Latitude</h2>
         <p>${(data.address.lat)}</p>
         <h2>Longitude</h2>
