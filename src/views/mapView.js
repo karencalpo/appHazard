@@ -4,7 +4,7 @@ import LegendView from "./legend.js";
 import { PANEL, SEARCH_MAP_RESULTS, REQUEST_RISK_HEATMAP, PRODUCE_HEATMAP,
   TOGGLE_HEATMAP_COLOR, TOGGLE_HEATMAP_RADIUS, TOGGLE_HEATMAP_OPACITY,
   PRODUCE_RISK_DETAILS, DISPLAY_ERROR_MESSAGE, PRODUCE_EXTRA_POINTS } from "../messages.js";
-import { DEFAULT_MAP_LOCATION, DEFAULT_MAP_ZOOM, GRADIENT } from "../constants.js";
+import { DEFAULT_MAP_LOCATION, DEFAULT_MAP_ZOOM, GRADIENT, SERVICE } from "../constants.js";
 import Logger from "../logger/logger.js";
 import getPropertyData from "./functions/getPropertyData.js";
 
@@ -58,7 +58,7 @@ class MapView extends HeatMapView {
           data.propData = await getPropertyData(data.address.address, data.address.city);
           await this.popup(data);
         } else if (message === PRODUCE_EXTRA_POINTS) {
-          
+          this.markLocations(data);
         } else {
           Logger.warn(`Unknown message ${message}`);
         }
@@ -70,7 +70,7 @@ class MapView extends HeatMapView {
   };
 
   popup(data) {
-    //Logger.debug("Popup", data);
+    Logger.debug("Popup", data);
     return this.addMarkerPopup(`
       <aside class="popup">
         <h1>Risk &amp; Property</h1>
@@ -91,6 +91,20 @@ class MapView extends HeatMapView {
    */
   setLocation(results) {
     this.sendMessage(REQUEST_RISK_HEATMAP, results);
+  };
+
+  async markLocations(locations) {
+    let i = 0;
+    const l = locations.length;
+    for (i; i < l; i++) {
+      console.debug(i, locations[i].location);
+      await this.setMarker(
+        `${SERVICE}/favicon-32x32.png`,
+        parseFloat(locations[i].location.latitude),
+        parseFloat(locations[i].location.longitude),
+      "<p>Bubba got a big ol' truck!</p>");
+    }
+    return i;
   };
 
   async render() {

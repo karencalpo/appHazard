@@ -2,6 +2,7 @@ import { GOOGLE_MAP_URL, SERVICE } from "../../constants.js";
 import { PANEL, PRODUCE_HEATMAP, PRODUCE_RISK_DETAILS, PRODUCE_EXTRA_POINTS } from "../../messages.js";
 import Logger from "../../logger/logger.js";
 import Application from "../../application/application.js";
+const MAX_POINTS = 10;
 
 const requestHeatmap = (results, mediator) => {
   if (results) {
@@ -111,41 +112,65 @@ const requestHeatmap = (results, mediator) => {
       return json;
     })
     .then( (json) => {
+      // produce risk and property details
+      Logger.debug(new Date(), "produce risk and property details");
+      if (json && json.riskData) {
+        mediator.publish(PANEL, PRODUCE_RISK_DETAILS, json.riskData);
+      }
+      return json;
+    })
+    .then( (json) => {
       // produce 5 extra points by async request if we have more than 5
       // call 5 times to get property data
-      const MAX_POINTS = 5;
       let i = 0;
       const req = [];
 
       for (i; i < MAX_POINTS; i++) {
         const loc = json.locations[i];
         const obj = { "address": loc.address.address, "city": loc.address.city, "state": loc.address.state };
-        req.push({
-        "headers": {
+        req.push(obj);
+      }
+      return req;
+    })
+    .then( (requests) => {
+      const go = (obj) => {
+        return fetch(`${SERVICE}/property`, {
           "method": "POST",
           "body": JSON.stringify(obj),
           "headers": {
             "Accept": "application/json",
             "Content-Type": "application/json"
           }
-        }});
-      }
-      return req;
-    })
-    .then( (requests) => {
-      const go = (header) => {
-        fetch(`${SERVICE}/properties`, header)
+        })
         .then( (response) => {
           if (response.ok) {
             return response.json();
           } else {
-            throw new Error(`Problem requesting: ${response.status} ${response.statusText} - ${response.body}`);
+            Logger.warn("High risk location is not markable.")
+            return null;
           }
         })
+        .catch( (e) => {
+          Logger.warn("High risk location is not markable.")
+          return null;
+        });
       };
       return Promise.all(requests.map(go));
     })
     .then( (locations) => {
+      // scrub empties and blanks
+      let i = 0;
+      const l = locations.length;
+      const clean = [];
+      for (i; i < l; i++) {
+        if (locations[i] && locations[i].identifier) {
+          clean.push(locations[i]);
+        }
+      }
+      return clean;
+    })
+    .then( (locations) => {
+      Logger.debug("Locations", locations);
       mediator.publish(PANEL, PRODUCE_EXTRA_POINTS, locations);
     })
     .catch( (e) => {
