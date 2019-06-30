@@ -25,7 +25,11 @@ module.exports = (app) => {
               if(data["status"]["msg"] === "SuccessWithoutResult") {
                 res.send({});
               } else {
-                res.send(data.property[0]);
+                if(data && data.property) {
+                  res.send(data.property[0]);
+                } else {
+                  res.status(400).send("Bad address or city.");
+                }
               }
             } catch(e) {
               Logger.error(e);
