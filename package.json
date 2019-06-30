@@ -71,7 +71,7 @@
     "presentation-dom": "^2.8.2",
     "presentation-indicators": "^2.0.2",
     "presentation-logger": "^2.6.2",
-    "presentation-maps": "^2.7.1",
+    "presentation-maps": "^2.8.1",
     "presentation-router": "^2.6.7",
     "presentation-view": "^2.6.0",
     "typeface-roboto": "0.0.54"

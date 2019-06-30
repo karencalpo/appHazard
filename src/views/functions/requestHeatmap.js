@@ -5,13 +5,13 @@ import Application from "../../application/application.js";
 
 const requestHeatmap = (results, mediator) => {
   if (results) {
-    Logger.debug(new Date(), "results", results);
+    //Logger.debug(new Date(), "results", results);
     const latitude = results[0].geometry.location.lat();
     const longitude = results[0].geometry.location.lng();
 
     // call geocode
-    Logger.debug(new Date(), "call geocode");
-    Logger.debug(new Date(), "key", Application.MAP_API_KEY);
+    //Logger.debug(new Date(), "call geocode");
+    //Logger.debug(new Date(), "key", Application.MAP_API_KEY);
     return fetch(`${GOOGLE_MAP_URL}?latlng=${latitude},${longitude}&key=${Application.MAP_API_KEY}`)
     .then( (response) => {
       if (response.ok) {
@@ -22,7 +22,7 @@ const requestHeatmap = (results, mediator) => {
     })
     .then( (json) => {
       // find the largest dataset
-      Logger.debug(new Date(), "find the largest dataset");
+      //Logger.debug(new Date(), "find the largest dataset");
       let i = 0;
       let results = null;
       let index = 0;
@@ -34,12 +34,12 @@ const requestHeatmap = (results, mediator) => {
           index = i;
         }
       }
-      Logger.debug(new Date(), "Largest Dataset", results);
+      //Logger.debug(new Date(), "Largest Dataset", results);
       return results;
     })
     .then( (results) => {
       // convert to address object
-      Logger.debug(new Date(), "convert to address object");
+      //Logger.debug(new Date(), "convert to address object");
       const address = {
         "lat": results.geometry.location.lat,
         "long": results.geometry.location.lng,
@@ -69,7 +69,7 @@ const requestHeatmap = (results, mediator) => {
     })
     .then( (address) => {
       // check if we have required fields
-      Logger.debug(new Date(), address);
+      //Logger.debug(new Date(), address);
       if (!address.county || !address.state || !address.city) {
         throw new Error(`Not enough data to calculate risk.`);
       };
@@ -77,7 +77,7 @@ const requestHeatmap = (results, mediator) => {
     })
     .then( (address) => {
       // request location data and add address data
-      Logger.debug(new Date(), "request location data and add address data");
+      //Logger.debug(new Date(), "request location data and add address data");
       return fetch(`${SERVICE}/properties?lat=${address.lat}&long=${address.long}&address=${encodeURIComponent(address.address)}&city=${encodeURIComponent(address.city)}&county=${encodeURIComponent(address.county)}&state=${encodeURIComponent(address.state)}&zip=${encodeURIComponent(address.zip)}`)
       .then( (response) => {
         if (response.ok) {
@@ -102,7 +102,7 @@ const requestHeatmap = (results, mediator) => {
     })
     .then( (json) => {
       // produce heatmap by async request
-      Logger.debug(new Date(), "locations", json);
+      //Logger.debug(new Date(), "locations", json);
       if (json && json.locations && Array.isArray(json.locations) && json.locations.length > 0) {
         mediator.publish(PANEL, PRODUCE_HEATMAP, json.locations);
       } else {
@@ -112,14 +112,14 @@ const requestHeatmap = (results, mediator) => {
     })
     .then( (json) => {
       // produce risk and property details
-      Logger.debug(new Date(), "produce risk and property details");
+      //Logger.debug(new Date(), "produce risk and property details");
       if (json && json.riskData) {
         mediator.publish(PANEL, PRODUCE_RISK_DETAILS, json.riskData);
       }
       return json;
     })
     .catch( (e) => {
-      Logger.debug(`Request Caught error ${e.message}`);
+      //Logger.debug(`Request Caught error ${e.message}`);
       throw e;
     });
   } else {
