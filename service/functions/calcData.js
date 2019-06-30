@@ -110,8 +110,6 @@ const calcData = async (headers, req, res) => {
 
     res.send(allData);
     return allData;
-    // res.send([attom, fema]);
-    // return [attom, fema];
   } catch (e) {
     Logger.error(e);
     res.status(500).send(e);
