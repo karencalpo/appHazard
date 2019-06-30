@@ -1,5 +1,5 @@
 import { GOOGLE_MAP_URL, SERVICE } from "../../constants.js";
-import { PANEL, PRODUCE_HEATMAP, PRODUCE_RISK_DETAILS } from "../../messages.js";
+import { PANEL, PRODUCE_HEATMAP, PRODUCE_RISK_DETAILS, PRODUCE_EXTRA_POINTS } from "../../messages.js";
 import Logger from "../../logger/logger.js";
 import Application from "../../application/application.js";
 
@@ -78,7 +78,7 @@ const requestHeatmap = (results, mediator) => {
     .then( (address) => {
       // request location data and add address data
       //Logger.debug(new Date(), "request location data and add address data");
-      return fetch(`${SERVICE}/properties?lat=${address.lat}&long=${address.long}&address=${encodeURIComponent(address.address)}&city=${encodeURIComponent(address.city)}&county=${encodeURIComponent(address.county)}&state=${encodeURIComponent(address.state)}&zip=${encodeURIComponent(address.zip)}`)
+      return fetch(`${SERVICE}/properties?lat=${address.lat}&long=${address.long}&address=${encodeURIComponent(address.address)}&city=${encodeURIComponent(address.city)}&county=${encodeURIComponent(address.county)}&state=${encodeURIComponent(address.state)}&zip=${encodeURIComponent(address.zip)}&yearRange=30`)
       .then( (response) => {
         if (response.ok) {
           return response.json();
@@ -111,12 +111,42 @@ const requestHeatmap = (results, mediator) => {
       return json;
     })
     .then( (json) => {
-      // produce risk and property details
-      //Logger.debug(new Date(), "produce risk and property details");
-      if (json && json.riskData) {
-        mediator.publish(PANEL, PRODUCE_RISK_DETAILS, json.riskData);
+      // produce 5 extra points by async request if we have more than 5
+      // call 5 times to get property data
+      const MAX_POINTS = 5;
+      let i = 0;
+      const req = [];
+
+      for (i; i < MAX_POINTS; i++) {
+        const loc = json.locations[i];
+        const obj = { "address": loc.address.address, "city": loc.address.city, "state": loc.address.state };
+        req.push({
+        "headers": {
+          "method": "POST",
+          "body": JSON.stringify(obj),
+          "headers": {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+          }
+        }});
       }
-      return json;
+      return req;
+    })
+    .then( (requests) => {
+      const go = (header) => {
+        fetch(`${SERVICE}/properties`, header)
+        .then( (response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error(`Problem requesting: ${response.status} ${response.statusText} - ${response.body}`);
+          }
+        })
+      };
+      return Promise.all(requests.map(go));
+    })
+    .then( (locations) => {
+      mediator.publish(PANEL, PRODUCE_EXTRA_POINTS, locations);
     })
     .catch( (e) => {
       //Logger.debug(`Request Caught error ${e.message}`);

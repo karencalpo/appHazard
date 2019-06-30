@@ -10,6 +10,7 @@ export const SEARCH_MAP_RESULTS = "searchmapresults";
 export const REQUEST_RISK_HEATMAP = "requestriskheatmap";
 export const PRODUCE_HEATMAP = "produceheatmap";
 export const PRODUCE_RISK_DETAILS = "produceriskdetails";
+export const PRODUCE_EXTRA_POINTS = "produceextrapoints";
 
 export const TOGGLE_HEATMAP_COLOR = "toggleheatmapcolor";
 export const TOGGLE_HEATMAP_RADIUS = "toggleheatmapradius";

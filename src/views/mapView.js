@@ -3,7 +3,7 @@ import ControlPanelView from "./controlPanel.js";
 import LegendView from "./legend.js";
 import { PANEL, SEARCH_MAP_RESULTS, REQUEST_RISK_HEATMAP, PRODUCE_HEATMAP,
   TOGGLE_HEATMAP_COLOR, TOGGLE_HEATMAP_RADIUS, TOGGLE_HEATMAP_OPACITY,
-  PRODUCE_RISK_DETAILS, DISPLAY_ERROR_MESSAGE } from "../messages.js";
+  PRODUCE_RISK_DETAILS, DISPLAY_ERROR_MESSAGE, PRODUCE_EXTRA_POINTS } from "../messages.js";
 import { DEFAULT_MAP_LOCATION, DEFAULT_MAP_ZOOM, GRADIENT } from "../constants.js";
 import Logger from "../logger/logger.js";
 import getPropertyData from "./functions/getPropertyData.js";
@@ -57,6 +57,8 @@ class MapView extends HeatMapView {
         } else if (message === PRODUCE_RISK_DETAILS) {
           data.propData = await getPropertyData(data.address.address, data.address.city);
           await this.popup(data);
+        } else if (message === PRODUCE_EXTRA_POINTS) {
+          
         } else {
           Logger.warn(`Unknown message ${message}`);
         }

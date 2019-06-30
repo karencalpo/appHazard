@@ -15,7 +15,7 @@ class Header extends BaseHeader {
     this.template = `
       <nav id="${MENU}"></nav>
       <figure data-${this.name}="logo" data-click="logo" class="logo" id="${AVATAR_IMAGE}"></figure>
-      <h1>${APP_NAME}</h1>
+      <h1 class="appname">${APP_NAME}</h1>
       <div id="${SEARCH}" class="${SEARCH}"></div>
       <div id="progress" class="progress"></div>
     `;
