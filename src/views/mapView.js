@@ -73,7 +73,12 @@ class MapView extends HeatMapView {
 
   popup(data) {
     //Logger.debug("Popup", data);
-    let sorted = [parseInt(data.propData.avm.amount.value), parseInt(data.propData.assessment.assessed.assdttlvalue), parseInt(data.propData.assessment.market.mktttlvalue)].sort((a,b) => {
+    [data.propData.avm.amount.value, data.propData.assessment.assessed.assdttlvalue, data.propData.assessment.market.mktttlvalue]
+    let first_value = (data.propData.avm.amount.value) ? data.propData.avm.amount.value : 0;
+    let second_value = (data.propData.assessment.assessed.assdttlvalue) ? data.propData.assessment.assessed.assdttlvalue : 0;
+    let third_value = (data.propData.assessment.market.mktttlvalue) ? data.propData.assessment.market.mktttlvalue : 0;
+
+    let sorted = [first_value, second_value, third_value].sort((a,b) => {
       return a-b;
     });
 

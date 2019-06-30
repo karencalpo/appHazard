@@ -32,7 +32,9 @@ const calcData = async (headers, req, res) => {
 
     if(attom["property"]) {
       attom["property"].forEach((property) => {
-        propertyVals.push(property["assessment"]["assessed"]["assdttlvalue"]);
+        let first_value = (property["assessment"]["assessed"]["assdttlvalue"]) ? parseInt(property["assessment"]["assessed"]["assdttlvalue"]) : 0;
+        let second_value = (property["assessment"]["market"]["mktttlvalue"]) ? parseInt(property["assessment"]["market"]["mktttlvalue"]) : 0;
+        propertyVals.push((second_value > first_value) ? second_value : first_value);
       });
 
       let propertyValsSorted = propertyVals.sort((a,b) => {
@@ -79,18 +81,23 @@ const calcData = async (headers, req, res) => {
 
     if(attom["property"]) {
       attom["property"].forEach((property) => {
+        let first_value = (property["assessment"]["assessed"]["assdttlvalue"]) ? parseInt(property["assessment"]["assessed"]["assdttlvalue"]) : 0;
+        let second_value = (property["assessment"]["market"]["mktttlvalue"]) ? parseInt(property["assessment"]["market"]["mktttlvalue"]) : 0;
         let risk = Risk.calcRisk(property["assessment"]["assessed"]["assdttlvalue"], propertyAvg, fema["DisasterDeclarationsSummaries"].length, Risk.DISASTER_TYPE[greatest_disaster], Risk.RISK_DEMO["NORMAL"]);
-        locations.push({
-          lat: property["location"]["latitude"],
-          long: property["location"]["longitude"],
-          weight: risk,
-          address: {
-            address: property["address"]["line1"],
-            city: property["address"]["locality"],
-            state: property["address"]["countrySubd"]
-          },
-          value: (property["assessment"]["assessed"]["assdttlvalue"] > property["assessment"]["market"]["mktttlvalue"]) ? property["assessment"]["assessed"]["assdttlvalue"] : property["assessment"]["market"]["mktttlvalue"]
-        });
+        //if(property["summary"]["propclass"] === "Single Family Residence / Townhouse") {
+          locations.push({
+            lat: property["location"]["latitude"],
+            long: property["location"]["longitude"],
+            weight: risk,
+            address: {
+              address: property["address"]["line1"],
+              city: property["address"]["locality"],
+              state: property["address"]["countrySubd"],
+              propertyType: property["summary"]["propclass"]
+            },
+            value: (second_value > first_value) ? second_value : first_value
+          });
+        //}
       });
 
       sortLocations(locations, "weight");
